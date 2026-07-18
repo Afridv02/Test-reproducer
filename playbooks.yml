@@ -1,0 +1,23 @@
+---
+- name: Collection Test
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Run a community.general module
+      community.general.random_string:
+        length: 8
+      register: rand
+
+    - name: Display generated string
+      ansible.builtin.debug:
+        var: rand.random_string
+
+    - name: Verify redhat.rhel_system_roles collection is available
+      ansible.builtin.include_role:
+        name: redhat.rhel_system_roles.timesync
+
+    - name: Collection verification completed
+      ansible.builtin.debug:
+        msg: "Both collections were resolved successfully."
